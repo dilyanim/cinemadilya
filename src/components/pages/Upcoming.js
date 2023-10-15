@@ -3,33 +3,41 @@ import { useEffect, useState } from "react";
 import { API_KEY } from "./API_KEY";
 import MovieCard from "./MovieCard";
 
-const TopRated = () => {
-  const [rated, setRated] = useState([]);
+const Up = () => {
+  const [up, setUp] = useState([]);
   const [page, setPage] = useState([1]);
-  function getRated() {
+
+  function getUp() {
     axios(
-      `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&language=en-US&page=${page}`
+      `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=${page}`
     ).then((res) => {
-      setRated(res.data.results);
+      setUp(res.data.results);
     });
   }
   useEffect(() => {
-    getRated();
+    getUp();
   }, []);
-  console.log(rated);
+  console.log(up);
   return (
     <div id="movie">
       <div className="container">
         <div className="movie">
           <div className="movie-div">
-            {rated.map((el) => (
+            {up.map((el) => (
               <MovieCard element={el} />
             ))}
           </div>
         </div>
       </div>
+      <button className="prev" onClick={() => setPage(page - 1)}>
+        prev
+      </button>
+
+      <button className="next" onClick={() => setPage(page + 1)}>
+        next
+      </button>
     </div>
   );
 };
 
-export default TopRated;
+export default Up;
